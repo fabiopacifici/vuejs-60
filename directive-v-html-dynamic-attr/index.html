@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href='./style.css' rel='stylesheet'>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id='app'>
+    <h1>Hello World</h1>
+    <!-- v-html -->
+    <p v-html="message"></p>
+
+    <a :[attr]="link">Link</a>
+    <!-- a href="https://v2.vuejs.org/v2/guide/syntax.html#Shorthands" -->
+  </div>
+  <!-- Development only cdn, disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only <script src='https: //cdn.jsdelivr.net/npm/vue@2.6.14'></script> -->
+  <script src='./app.js'></script>
+</body>
+
+</html>
