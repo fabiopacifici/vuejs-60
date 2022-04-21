@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href='./style.css' rel='stylesheet'>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id='app'>
+    <h1>Hello World</h1>
+
+    <!-- v-if directive -->
+    <h1 v-if="awesome">Vue is awesome!</h1>
+    <h1 v-else>Oh no 😢</h1>
+
+    <!-- V-show -->
+    <p v-show="showP">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti et corrupti dolores id nobis
+      nisi
+      blanditiis maxime laudantium numquam aperiam? Necessitatibus repellendus facere ad, provident qui vitae velit
+      ratione ea.</p>
+
+    <template v-if="learnVue">
+
+      <h2>Learn vue js</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, nihil! Aut facilis beatae, perferendis culpa odit
+        distinctio quisquam aspernatur! Quos repellat, architecto culpa doloremque odit est consectetur! Natus,
+        perferendis ea?
+      </p>
+
+    </template>
+
+    <div v-else>Show me</div>
+
+
+  </div>
+  <!-- Development only cdn, disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only <script src='https: //cdn.jsdelivr.net/npm/vue@2.6.14'></script> -->
+  <script src='./app.js'></script>
+</body>
+
+</html>
