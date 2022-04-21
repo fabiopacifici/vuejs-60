@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href='./style.css' rel='stylesheet'>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id='app'>
+    <h1>Hello World</h1>
+
+    <ul class="movies">
+      <li class="movie" v-for="(movie, index) in movies">
+        {{movie.title}} : {{index}}
+      </li>
+    </ul>
+
+
+  </div>
+  <!-- Development only cdn, disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only <script src='https: //cdn.jsdelivr.net/npm/vue@2.6.14'></script> -->
+  <script src='./app.js'></script>
+</body>
+
+</html>
