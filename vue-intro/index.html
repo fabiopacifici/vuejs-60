@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href='./assets/css/style.css' rel='stylesheet'>
+  <title>Vue Intro</title>
+
+  <style>
+    .text-red {
+      color: red;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <div id="app">
+    <!-- Mustache syntax  -->
+    <h1>{{ greetings }}</h1>
+    <p>{{ text }}</p>
+    <!-- v-model directive -->
+    <input type="text" v-model="userName">
+    <p>{{ userName }}</p>
+
+    <!-- v-bind directive  -->
+
+    <h2 v-bind:class="css_classes"> Direttiva v-bind estesa</h2>
+    <h2 :class="css_classes"> Direttiva v-bind constratta</h2>
+
+    <!-- v-on:evento estesa -->
+    <!-- versione contratta @evento -->
+    <button @click="incrementCounter">Add 1</button>
+    <button v-on:click="incrementCounter">Add 1</button>
+    <p>The button above has been clicked {{ counter }} times.</p>
+
+  </div>
+
+  <!-- Disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only 
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14'></script>-->
+
+  <script src='./app.js'></script>
+</body>
+
+</html>
