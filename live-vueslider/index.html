@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Vue Sldier</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;900&display=swap" rel="stylesheet">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
+    integrity='sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=='
+    crossorigin='anonymous' referrerpolicy='no-referrer' />
+
+  <link href='./assets/css/style.css' rel='stylesheet'>
+</head>
+
+<body>
+  <div id='app'>
+
+    <div class="container">
+
+      <div class="slideshow" @mouseenter="pauseSlider" @mouseleave="autoplay">
+        <div class="active_media">
+          <img :src="posts[active].image" :alt="posts[active].title">
+          <div class="media_text">
+            <h2>{{posts[active].title}}</h2>
+            <p>{{posts[active].text}}</p>
+          </div>
+        </div>
+        <div class="thumbs">
+
+          <div class="prev" @click="prevImage">
+            <i class="fa-solid fa-chevron-circle-up"></i>
+          </div>
+          <div class="next" @click="nextImage">
+            <i class=" fa-solid fa-chevron-circle-down"></i>
+          </div>
+
+          <img :src="post.image" :alt="post.title" v-for="(post, index) in posts"
+            :class="active === index ? 'active' : ''" @click="changeImage(index)">
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- Development only cdn, disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only <script src='https: //cdn.jsdelivr.net/npm/vue@2.6.14'></script> -->
+  <script src='./assets/js/app.js'></script>
+</body>
+
+</html>
