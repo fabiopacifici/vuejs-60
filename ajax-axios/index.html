@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Document</title>
+  <link href='./style.css' rel='stylesheet'>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+  <div id='app'>
+    <h1>Hello Axios</h1>
+    <p v-if="my_data">
+      Random Number: {{my_data.response}}
+    </p>
+
+    <hr>
+
+    <h2>Number Game</h2>
+    <h4>PC: {{pc_number}}</h4>
+    <h4>User: {{user_number}}</h4>
+
+    <div class="winner">
+      Vince: {{ pc_number > user_number ? 'PC' : 'User'}}
+    </div>
+
+  </div>
+  <!-- Development only cdn, disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only <script src='https: //cdn.jsdelivr.net/npm/vue@2.6.14'></script> -->
+  <script src='./app.js'></script>
+</body>
+
+</html>
