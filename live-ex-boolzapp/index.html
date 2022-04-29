@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Boolzapp</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
+    integrity='sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=='
+    crossorigin='anonymous' referrerpolicy='no-referrer' />
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;900&display=swap' rel='stylesheet'>
+  <link href='./assets/css/style.css' rel='stylesheet'>
+</head>
+
+<body class="">
+  <div id='app'>
+
+
+    <aside>
+      <div class="top">
+        <div class="avatar">
+          <img src="./assets/img/avatar_io.jpg" alt="">
+          <span>Sofia</span>
+        </div>
+        <div class="actions">
+          <i class="fa-solid fa-circle-notch"></i>
+          <i class="fa-solid fa-comment"></i>
+          <i class="fa-solid fa-ellipsis-v"></i>
+        </div>
+      </div>
+      <!-- /.top -->
+      <div class="notifications">
+        <i class="fa-solid fa-bell-slash"></i>
+        <div class="text">
+          <p>Ricevi notifiche di nuovi messaggi</p>
+          <p><a href="/">Attiva notifiche desktop</a></p>
+        </div>
+      </div>
+      <!-- /.notifications -->
+      <div class="searchbox">
+        <div class="searcharea">
+          <i class="fa-solid fa-search"></i>
+          <!-- Milestone 4 use keyup and v-model -->
+          <input type="text" placeholder="Cerca o inizia a una nuova chat" @keyup="searchContact" v-model="searchText">
+        </div>
+      </div>
+      <!-- /.searchbox -->
+      <div class="contacts">
+        <!-- Milestone 4 Use v-show instead of v-if -->
+        <div v-for="(contact, index) in contacts" class="contact" :class="index === activeContact ? 'active' :''"
+          @click="selectContact(index)" v-show="contact.visible">
+          <div class="avatar">
+            <img :src="'./assets/img/avatar' + contact.avatar +  '.jpg'" alt="">
+            <div class="text">
+              <div class="contact__name">{{contact.name}}</div>
+              <!-- Milestone 5 -->
+              <small class="contact__message"
+                v-if="contact.messages.length > 0">{{contact.messages[contact.messages.length
+                -1].message}}</small>
+            </div>
+          </div>
+          <div class="contact__date">
+            <!-- Milestone 5 -->
+            <small v-if="contact.messages.length > 0">{{contact.messages[contact.messages.length
+              -1].date}}</small>
+          </div>
+
+        </div>
+      </div>
+      <!-- /.contacts -->
+    </aside>
+    <!-- /aside -->
+    <main>
+      <div class="top">
+        <div class="avatar">
+          <img :src="'./assets/img/avatar' + contacts[activeContact].avatar +'.jpg'" alt="">
+          <div class="text">
+            <p>{{contacts[activeContact].name}}</p>
+            <!-- Milestone 5 -->
+            <small v-if="contacts[activeContact].messages.length > 0">
+              Ultimo accesso oggi alle {{contacts[activeContact].messages[contacts[activeContact].messages.length
+              -1].date}}
+            </small>
+          </div>
+        </div>
+        <div class="actions">
+          <i class="fa-solid fa-search"></i>
+          <i class="fa-solid fa-paperclip"></i>
+          <i class="fa-solid fa-ellipsis-v"></i>
+        </div>
+      </div>
+      <!-- /.top -->
+      <div class="messages">
+        <!-- Milestone 5 index and @click='' on each dropdown menu -->
+        <div class="message" :class="message.status === 'sent' ? 'sent' : 'received'"
+          v-for="(message,index) in contacts[activeContact].messages">
+          <p>{{message.message}}</p>
+          <div class="message__date">{{message.date}}</div>
+          <i class="fa-solid fa-chevron-down dropdownToggler" @click="toggleDropDown(index, message)"></i>
+          <div class="dropdown" v-show="activeMessage.status && activeMessage.index === index">
+            <ul>
+              <li>Info</li>
+              <li @click="deleteCurrentMessage(index, contacts[activeContact].messages)">Delete Message</li>
+            </ul>
+          </div>
+        </div>
+        <!--  -->
+      </div>
+      <!-- /.messages -->
+      <div class="bottom">
+        <div class="left"><i class="fa-solid fa-smile fa-2x"></i></div>
+        <!-- /.left -->
+
+        <!-- milestone 3 -->
+        <div class="add_message">
+          <input type="text" v-model="newMessage" @keyup.enter="sendMessage">
+        </div>
+        <!-- /.add_message -->
+        <div class="right">
+          <i class="fa-solid fa-microphone fa-2x"></i>
+        </div>
+        <!-- /.right -->
+      </div>
+      <!-- /.bottom -->
+    </main>
+    <!-- /main -->
+
+  </div>
+  <!-- Development only cdn, disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only <script src='https: //cdn.jsdelivr.net/npm/vue@2.6.14'></script> -->
+  <script src='./assets/js/app.js'></script>
+</body>
+
+</html>
