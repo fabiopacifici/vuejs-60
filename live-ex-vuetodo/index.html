@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Document</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;900&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
+    integrity='sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=='
+    crossorigin='anonymous' referrerpolicy='no-referrer' />
+  <link href='./style.css' rel='stylesheet'>
+
+</head>
+
+<body>
+  <div id='app'>
+    <div class="container">
+      <h1>Todo List</h1>
+      <div class="add_task">
+        <input type="text" v-model="newTask" @keyup.enter="addTask($event)">
+        <button @click="addTask">Add</button>
+
+      </div>
+
+      <main>
+
+        <div class="todo tasks-wrapper">
+
+          <section v-if="tasks.length > 0">
+            <h3>Todo list</h3>
+            <ul>
+              <li v-for="(task, index) in tasks">
+                <input type="text" v-model="task.text">
+                <div class="actions">
+                  <i class="fa-solid fa-check-circle" @click="markAsDone(index)"></i>
+                  <i class="fa-solid fa-times-circle" @click="removeTask(index)"></i>
+                </div>
+              </li>
+            </ul>
+          </section>
+          <p v-else>
+            🥳 Yeee! nothing to do today!
+          </p>
+        </div>
+
+        <div class="tasks-wrapper" v-if="completedTasks.length > 0">
+          <section>
+            <h3>Completed Tasks</h3>
+            <ul>
+              <li v-for="(task, index) in completedTasks">
+                <p>{{task.text}}</p>
+                <div class="actions">
+                  <i class="fa-solid fa-arrow-circle-up" @click="restoreTask(index)"></i>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="tasks-wrapper" v-if="deletedTasks.length > 0">
+          <section>
+            <h3>Deleted Tasks <span @click="emptyBin">[Empty Bin]</span></h3>
+            <ul>
+              <li v-for="(task, index) in deletedTasks">
+                <p>{{task.text}}</p>
+                <div class="actions">
+                  <i class="fa-solid fa-trash-arrow-up" @click="restoreFromTrash(index)"></i>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+
+  <!-- Development only cdn, disable in production -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js'></script>
+  <!-- Production only <script src='https: //cdn.jsdelivr.net/npm/vue@2.6.14'></script> -->
+  <script src='./app.js'></script>
+</body>
+
+</html>
