@@ -158,6 +158,7 @@ const app = new Vue({
     ],
     newMessage: '', //<-- milestone 3
     searchText: '', // <-- milestone 4
+    /* milestone 5 */
     activeMessage: {
       index: false,
       status: false
@@ -200,8 +201,9 @@ const app = new Vue({
       const searchText = this.searchText.toLowerCase();
       console.log(searchText);
 
-      // loop over the list of contacts
+      // save contacts in a variable
       const contacts = this.contacts
+      // loop over the list of contacts
       contacts.forEach(contact => {
         // save the name to lowercase
         const name = contact.name.toLowerCase()
@@ -215,7 +217,7 @@ const app = new Vue({
     },
     /* Milestone 5 */
     deleteCurrentMessage(index, messages) {
-      messages.splice(index, 1)
+        messages.splice(index, 1)
     },
     toggleDropDown(index) {
       if (this.activeMessage.index === index) {

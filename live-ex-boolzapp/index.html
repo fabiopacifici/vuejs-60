@@ -49,36 +49,42 @@
       <!-- /.searchbox -->
       <div class="contacts">
         <!-- Milestone 4 Use v-show instead of v-if -->
-        <div v-for="(contact, index) in contacts" class="contact" :class="index === activeContact ? 'active' :''"
-          @click="selectContact(index)" v-show="contact.visible">
-          <div class="avatar">
-            <img :src="'./assets/img/avatar' + contact.avatar +  '.jpg'" alt="">
-            <div class="text">
-              <div class="contact__name">{{contact.name}}</div>
-              <!-- Milestone 5 -->
-              <small class="contact__message"
-                v-if="contact.messages.length > 0">{{contact.messages[contact.messages.length
-                -1].message}}</small>
-            </div>
-          </div>
-          <div class="contact__date">
-            <!-- Milestone 5 -->
-            <small v-if="contact.messages.length > 0">{{contact.messages[contact.messages.length
-              -1].date}}</small>
-          </div>
+        <div v-if="contacts.length > 0">
+          <div v-for="(contact, index) in contacts" class="contact" :class="index === activeContact ? 'active' :''"
+            @click="selectContact(index)" v-show="contact.visible">
+            <div class="avatar">
+              <img :src="'./assets/img/avatar' + contact.avatar +  '.jpg'" alt="">
+              <div class="text">
+                <div class="contact__name">{{contact.name}}</div>
+                <!-- Milestone 5 -->
+                <small class="contact__message" v-if="contact.messages.length > 0">{{contact.messages[contact.messages.length
+                  -1].message}}</small>
+                </div>
+                </div>
+                <div class="contact__date">
+                  <!-- Milestone 5 -->
+                  <small v-if="contact.messages.length > 0">{{contact.messages[contact.messages.length
+                    -1].date}}</small>
+                </div>
 
+          </div>
         </div>
+        <div v-else>
+          Nothing to show
+        </div>
+
       </div>
       <!-- /.contacts -->
     </aside>
     <!-- /aside -->
     <main>
       <div class="top">
-        <div class="avatar">
+        <div class="avatar" v-if="contacts.length > 0">
           <img :src="'./assets/img/avatar' + contacts[activeContact].avatar +'.jpg'" alt="">
           <div class="text">
             <p>{{contacts[activeContact].name}}</p>
             <!-- Milestone 5 -->
+            <!--  -->
             <small v-if="contacts[activeContact].messages.length > 0">
               Ultimo accesso oggi alle {{contacts[activeContact].messages[contacts[activeContact].messages.length
               -1].date}}
@@ -95,10 +101,11 @@
       <div class="messages">
         <!-- Milestone 5 index and @click='' on each dropdown menu -->
         <div class="message" :class="message.status === 'sent' ? 'sent' : 'received'"
-          v-for="(message,index) in contacts[activeContact].messages">
+          v-for="(message, index) in contacts[activeContact].messages">
           <p>{{message.message}}</p>
           <div class="message__date">{{message.date}}</div>
-          <i class="fa-solid fa-chevron-down dropdownToggler" @click="toggleDropDown(index, message)"></i>
+          <i class="fa-solid fa-chevron-down dropdownToggler" @click="toggleDropDown(index)"></i>
+          <!-- m5 -->
           <div class="dropdown" v-show="activeMessage.status && activeMessage.index === index">
             <ul>
               <li>Info</li>
