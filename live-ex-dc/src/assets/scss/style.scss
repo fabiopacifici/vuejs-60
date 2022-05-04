@@ -1,0 +1,58 @@
+/* Common */
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $dc-dark;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+/* Utilities */
+
+.btn-outline-primary {
+    @include button;
+    border: 1px solid $dc-primary;
+    color: $dc-white;
+
+}
+.text-right {
+    text-align: right;
+}
+.container {
+    max-width: 1440px;
+    margin: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.col {
+    flex-grow: 1;
+    max-width: 100%;
+}
+.col-6 {
+    width: calc(100% / 12) * 6;
+}
+.col-4 {
+    width: calc(100% / 12) * 4;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}

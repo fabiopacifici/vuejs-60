@@ -1,0 +1,11 @@
+$dc-primary: #0282F9;
+$dc-dark: #1C1C1C;
+$dc-light-dark: #303030;
+$dc-ligther-dark: #959595;
+$dc-white: #FFFFFF;
+
+@mixin button {
+    background-color: transparent;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+}
