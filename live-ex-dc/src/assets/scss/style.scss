@@ -16,6 +16,9 @@ a {
     text-decoration: none;
     display: inline-block;
 }
+img {
+    max-width: 100%;
+}
 /* Utilities */
 
 .btn-outline-primary {
@@ -24,8 +27,21 @@ a {
     color: $dc-white;
 
 }
+.btn-primary {
+    @include button;
+    background-color: $dc-primary;
+    color: $dc-white;
+}
+
+.py-3 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
 .text-right {
     text-align: right;
+}
+.text-center {
+    text-align: center;
 }
 .container {
     max-width: 1440px;
@@ -37,6 +53,9 @@ a {
     flex-wrap: wrap;
 }
 
+[class^="col-"]{
+    padding: 0.5rem;
+}
 
 .col {
     flex-grow: 1;
@@ -48,7 +67,9 @@ a {
 .col-4 {
     width: calc(100% / 12) * 4;
 }
-
+.col-2 {
+    width: calc(100% / 12) * 2;
+}
 .d-flex {
     display: flex;
 }
