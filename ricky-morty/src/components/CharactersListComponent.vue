@@ -1,21 +1,15 @@
 <template>
   <div>
+    <!--  <button @click="filterCharacters">Cliccami</button> -->
     <section class="characters" v-if="!loading">
       <div class="container">
         <h1 class="text-center my-3">Characters</h1>
         <div class="row g-3">
-          <Character
-            :character="character"
-            v-for="character in characters"
-            :key="character.id"
-          />
+          <Character :character="character" v-for="character in filteredCharacters" :key="character.id" />
         </div>
       </div>
     </section>
-    <div
-      class="d-flex min-vh-100 align-items-center justify-content-center"
-      v-else
-    >
+    <div class="d-flex min-vh-100 align-items-center justify-content-center" v-else>
       <h1>loading ...</h1>
     </div>
   </div>
@@ -24,6 +18,7 @@
 <script>
 import axios from "axios";
 import Character from "@/components/CharacterComponent";
+import state from '@/state.js';
 export default {
   name: "CharactersListComponent",
   components: {
@@ -52,6 +47,20 @@ export default {
           this.error = `Sorry There is a problem! ${error}`;
         });
     },
+    /*    filterCharacters(){
+         console.log(state.searchText);
+       } */
+  },
+  computed: {
+    filteredCharacters() {
+
+        return this.characters.filter(character => {
+          return character.name.toLowerCase().includes(state.searchText.toLowerCase())
+        })
+     
+
+
+    }
   },
   mounted() {
     this.callApi();
@@ -61,6 +70,6 @@ export default {
 
 <style scoped>
 h1 {
-    font-weight: 900;
+  font-weight: 900;
 }
 </style>

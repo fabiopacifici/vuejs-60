@@ -23,18 +23,8 @@
               <a class="nav-link" href="#">About</a>
             </li>
           </ul>
-          <form class="d-flex">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success d-flex align-items-center" type="submit">
-             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-              Search
-            </button>
-          </form>
+          <SearchBox v-model="searchText" @formSubmit="search"></SearchBox>
+          
         </div>
       </div>
     </nav>
@@ -42,8 +32,26 @@
 </template>
 
 <script>
+import SearchBox from "@/components/SearchBox.vue";
+import state from '@/state.js';
 export default {
-  name: 'SiteHeader'
+  name: 'SiteHeader',
+  components: {
+    SearchBox
+  },
+  data(){
+    return {
+      searchText: ''
+    }
+  },
+  methods: {
+    search(){
+      console.log('Searching...');
+      console.log(this.searchText);
+      state.searchText = this.searchText;
+      console.log(state);
+    }
+  }
 };
 </script>
 
