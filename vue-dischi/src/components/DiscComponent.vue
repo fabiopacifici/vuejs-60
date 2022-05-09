@@ -28,12 +28,17 @@ export default {
   background-color: $spotify-dark-light;
   padding: 1rem;
   text-align: center;
-
+  min-height: 400px;
+  img {
+    aspect-ratio: 1 / 1;
+  }
   .disc_text {
     padding: 1rem;
 
     h4 {
       text-align: center;
+      font-size: 1.1rem;
+      text-transform: uppercase;
     }
 
     div {
