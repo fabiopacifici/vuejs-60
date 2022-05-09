@@ -18,6 +18,7 @@
           {{ movie.title }}
           {{ movie.original_title }}
           {{movie.original_language}}
+          <img width="20" :src="generateFlagImageURL(movie.original_language)" alt="">
           {{movie.vote_average}}
         </div>
       </div>
@@ -40,7 +41,8 @@ export default {
       searchText: '',
       API_base_url: 'https://api.themoviedb.org/3/',
       API_KEY: '8a82473cbca2910e464dbdb44137c5cf',
-      movies_data: null
+      movies_data: null,
+     
     }
   },
   methods: {
@@ -55,6 +57,10 @@ export default {
     search() {
       this.callApi(this.searchText)
       this.searchText = ''
+    },
+
+    generateFlagImageURL(code){
+      return `https://countryflagsapi.com/svg/${code}`
     }
   },
 }
