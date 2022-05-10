@@ -22,7 +22,13 @@
             <img :src="generateImageUrl(movie.poster_path)" alt="">
             {{ movie.title }}
             {{ movie.original_title }}
-            {{ movie.vote_average }}
+            <!-- Add vote as stars -->
+            <div class="star" v-for="vote in getVote(movie.vote_average)" :key="vote + 'full'">
+              *
+            </div>
+              <div class="star" v-for="vote in 5 - getVote(movie.vote_average)" :key="vote + 'empty'">
+              #
+            </div>
             <!-- lang flag -->
             <lang-flag :iso="movie.original_language" v-if="selectedFlags(movie.original_language)" />
             <div v-else>
@@ -120,6 +126,9 @@ export default {
         return 'https://placeholder.pics/svg/342x513/DEDEDE/555555/Coming%20Soon'
       }
       return `https://image.tmdb.org/t/p/w342/${name}`
+    },
+    getVote(vote){
+      return Math.ceil(vote / 2)
     }
   },
 }
