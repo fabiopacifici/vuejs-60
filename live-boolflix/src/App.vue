@@ -116,6 +116,9 @@ export default {
       }
     },
     generateImageUrl(name) {
+      if(!name){
+        return 'https://placeholder.pics/svg/342x513/DEDEDE/555555/Coming%20Soon'
+      }
       return `https://image.tmdb.org/t/p/w342/${name}`
     }
   },
