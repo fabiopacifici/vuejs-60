@@ -18,6 +18,8 @@
         <section class="movies">
           <h2>Movies</h2>
           <div class="movie" v-for="movie in results.movies.results" :key="movie.id">
+            <!-- Add the movie image -->
+            <img :src="generateImageUrl(movie.poster_path)" alt="">
             {{ movie.title }}
             {{ movie.original_title }}
             {{ movie.vote_average }}
@@ -32,6 +34,8 @@
         <section class="series">
           <h2>Series</h2>
           <div class="serie" v-for="serie in results.series.results" :key="serie.id">
+           <!-- Add the movie image -->
+            <img :src="generateImageUrl(serie.poster_path)" alt="">
             {{ serie.name }}
             {{ serie.original_name }}
             {{ serie.vote_average }}
@@ -110,6 +114,9 @@ export default {
       } else {
         return false
       }
+    },
+    generateImageUrl(name) {
+      return `https://image.tmdb.org/t/p/w342/${name}`
     }
   },
 }
