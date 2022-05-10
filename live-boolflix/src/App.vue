@@ -14,6 +14,7 @@
 
     <main>
       <div class="container" v-if="show_results">
+      <h2>Movies</h2>
         <div class="movie" v-for="movie in results.movies.results" :key="movie.id">
           {{ movie.title }}
           {{ movie.original_title}}          
@@ -22,6 +23,17 @@
           <lang-flag :iso="movie.original_language" v-if="selectedFlags(movie.original_language)"/>
           <div v-else>
              {{movie.original_language}}
+          </div>
+        </div>
+        <h2>Series</h2>
+        <div class="serie" v-for="serie in results.series.results" :key="serie.id">
+           {{ serie.name }}
+          {{ serie.original_name}}          
+          {{serie.vote_average}}
+          <!-- lang flag -->
+          <lang-flag :iso="serie.original_language" v-if="selectedFlags(serie.original_language)"/>
+          <div v-else>
+             {{serie.original_language}}
           </div>
         </div>
       </div>
