@@ -16,10 +16,12 @@
       <div class="container" v-if="movies_data">
         <div class="movie" v-for="movie in movies_data.results" :key="movie.id">
           {{ movie.title }}
-          {{ movie.original_title }}
-          {{movie.original_language}}
-          <img width="20" :src="generateFlagImageURL(movie.original_language)" alt="">
+          {{ movie.original_title }}          
           {{movie.vote_average}}
+          <img width="20" :src="generateFlagImageURL(movie.original_language)" alt="" v-if="selectedFlags(movie.original_language)">
+          <div v-else>
+             {{movie.original_language}}
+          </div>
         </div>
       </div>
       <div v-else>
@@ -42,7 +44,7 @@ export default {
       API_base_url: 'https://api.themoviedb.org/3/',
       API_KEY: '8a82473cbca2910e464dbdb44137c5cf',
       movies_data: null,
-     
+      flags: ['it', 'ja', 'fr']
     }
   },
   methods: {
@@ -58,7 +60,13 @@ export default {
       this.callApi(this.searchText)
       this.searchText = ''
     },
-
+    selectedFlags(code){
+      if(this.flags.includes(code.toLowerCase())) {
+        return true
+      } else {
+        return false
+      }
+    },
     generateFlagImageURL(code){
       return `https://countryflagsapi.com/svg/${code}`
     }
