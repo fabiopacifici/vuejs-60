@@ -46,15 +46,23 @@ export default {
       API_base_url: 'https://api.themoviedb.org/3/',
       API_KEY: '8a82473cbca2910e464dbdb44137c5cf',
       movies_data: null,
-      flags: ['it', 'ja', 'fr', 'en']
+      flags: ['it', 'ja', 'fr', 'en'],
+      results: {}
     }
   },
   methods: {
     callApi(query) {
       Promise.all([this.getMovies(query), this.getSeries(query)])
         .then(response => {
-          console.log(response)
-          //this.movies_data = response.data
+          console.log(response) // Array [{}, {}]
+          // create an object in the data function
+          // loop over the response array or grab the first element of the response
+          const movies = response[0]
+          const series = response[1]
+          // create for each response a new key and assign the response.data as its value
+          this.$set(this.results, 'movies', movies.data)
+          this.$set(this.results, 'series', series.data)
+
         }).catch(err => {
           console.log(err);
         })
