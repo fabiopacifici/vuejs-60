@@ -13,8 +13,8 @@
     </header>
 
     <main>
-      <div class="container" v-if="movies_data">
-        <div class="movie" v-for="movie in movies_data.results" :key="movie.id">
+      <div class="container" v-if="show_results">
+        <div class="movie" v-for="movie in results.movies.results" :key="movie.id">
           {{ movie.title }}
           {{ movie.original_title}}          
           {{movie.vote_average}}
@@ -28,6 +28,9 @@
       <div v-else>
         <p>No thing to show here, try to search something</p>
       </div>
+
+
+
     </main>
 
   </div>
@@ -47,11 +50,13 @@ export default {
       API_KEY: '8a82473cbca2910e464dbdb44137c5cf',
       movies_data: null,
       flags: ['it', 'ja', 'fr', 'en'],
-      results: {}
+      results: {},
+      show_results: false
     }
   },
   methods: {
     callApi(query) {
+      
       Promise.all([this.getMovies(query), this.getSeries(query)])
         .then(response => {
           console.log(response) // Array [{}, {}]
@@ -62,7 +67,7 @@ export default {
           // create for each response a new key and assign the response.data as its value
           this.$set(this.results, 'movies', movies.data)
           this.$set(this.results, 'series', series.data)
-
+          this.show_results = true
         }).catch(err => {
           console.log(err);
         })
