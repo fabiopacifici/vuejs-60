@@ -14,33 +14,40 @@
 
     <main>
       <div class="container" v-if="show_results">
-      <h2>Movies</h2>
-        <div class="movie" v-for="movie in results.movies.results" :key="movie.id">
-          {{ movie.title }}
-          {{ movie.original_title}}          
-          {{movie.vote_average}}
-          <!-- lang flag -->
-          <lang-flag :iso="movie.original_language" v-if="selectedFlags(movie.original_language)"/>
-          <div v-else>
-             {{movie.original_language}}
+
+        <section class="movies">
+          <h2>Movies</h2>
+          <div class="movie" v-for="movie in results.movies.results" :key="movie.id">
+            {{ movie.title }}
+            {{ movie.original_title }}
+            {{ movie.vote_average }}
+            <!-- lang flag -->
+            <lang-flag :iso="movie.original_language" v-if="selectedFlags(movie.original_language)" />
+            <div v-else>
+              {{ movie.original_language }}
+            </div>
           </div>
-        </div>
-        <h2>Series</h2>
-        <div class="serie" v-for="serie in results.series.results" :key="serie.id">
-           {{ serie.name }}
-          {{ serie.original_name}}          
-          {{serie.vote_average}}
-          <!-- lang flag -->
-          <lang-flag :iso="serie.original_language" v-if="selectedFlags(serie.original_language)"/>
-          <div v-else>
-             {{serie.original_language}}
+        </section>
+
+        <section class="series">
+          <h2>Series</h2>
+          <div class="serie" v-for="serie in results.series.results" :key="serie.id">
+            {{ serie.name }}
+            {{ serie.original_name }}
+            {{ serie.vote_average }}
+            <!-- lang flag -->
+            <lang-flag :iso="serie.original_language" v-if="selectedFlags(serie.original_language)" />
+            <div v-else>
+              {{ serie.original_language }}
+            </div>
           </div>
-        </div>
+
+        </section>
+
       </div>
       <div v-else>
         <p>No thing to show here, try to search something</p>
       </div>
-
 
 
     </main>
@@ -68,7 +75,7 @@ export default {
   },
   methods: {
     callApi(query) {
-      
+
       Promise.all([this.getMovies(query), this.getSeries(query)])
         .then(response => {
           console.log(response) // Array [{}, {}]
@@ -84,12 +91,12 @@ export default {
           console.log(err);
         })
     },
-    getMovies(query){
+    getMovies(query) {
       const movie_url = `${this.API_base_url}search/movie?api_key=${this.API_KEY}&query=${query}`
       return axios.get(movie_url)
     },
-    getSeries(query){
-       const series_url = `${this.API_base_url}search/tv?api_key=${this.API_KEY}&query=${query}`
+    getSeries(query) {
+      const series_url = `${this.API_base_url}search/tv?api_key=${this.API_KEY}&query=${query}`
       return axios.get(series_url)
     },
 
@@ -97,8 +104,8 @@ export default {
       this.callApi(this.searchText)
       this.searchText = ''
     },
-    selectedFlags(code){
-      if(this.flags.includes(code.toLowerCase())) {
+    selectedFlags(code) {
+      if (this.flags.includes(code.toLowerCase())) {
         return true
       } else {
         return false
