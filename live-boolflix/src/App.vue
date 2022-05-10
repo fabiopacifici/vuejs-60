@@ -16,9 +16,10 @@
       <div class="container" v-if="movies_data">
         <div class="movie" v-for="movie in movies_data.results" :key="movie.id">
           {{ movie.title }}
-          {{ movie.original_title }}          
+          {{ movie.original_title}}          
           {{movie.vote_average}}
-          <img width="20" :src="generateFlagImageURL(movie.original_language)" alt="" v-if="selectedFlags(movie.original_language)">
+          <!-- lang flag -->
+          <lang-flag :iso="movie.original_language" v-if="selectedFlags(movie.original_language)"/>
           <div v-else>
              {{movie.original_language}}
           </div>
@@ -34,6 +35,7 @@
 
 <script>
 import axios from 'axios';
+
 export default {
   name: 'App',
   components: {
@@ -44,7 +46,7 @@ export default {
       API_base_url: 'https://api.themoviedb.org/3/',
       API_KEY: '8a82473cbca2910e464dbdb44137c5cf',
       movies_data: null,
-      flags: ['it', 'ja', 'fr']
+      flags: ['it', 'ja', 'fr', 'en']
     }
   },
   methods: {
