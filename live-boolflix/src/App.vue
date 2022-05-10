@@ -51,13 +51,23 @@ export default {
   },
   methods: {
     callApi(query) {
-      axios
-        .get(`${this.API_base_url}search/movie?api_key=${this.API_KEY}&query=${query}`)
+      Promise.all([this.getMovies(query), this.getSeries(query)])
         .then(response => {
-          console.log(response.data);
-          this.movies_data = response.data
+          console.log(response)
+          //this.movies_data = response.data
+        }).catch(err => {
+          console.log(err);
         })
     },
+    getMovies(query){
+      const movie_url = `${this.API_base_url}search/movie?api_key=${this.API_KEY}&query=${query}`
+      return axios.get(movie_url)
+    },
+    getSeries(query){
+       const series_url = `${this.API_base_url}search/tv?api_key=${this.API_KEY}&query=${query}`
+      return axios.get(series_url)
+    },
+
     search() {
       this.callApi(this.searchText)
       this.searchText = ''
