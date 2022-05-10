@@ -68,9 +68,6 @@ export default {
       } else {
         return false
       }
-    },
-    generateFlagImageURL(code){
-      return `https://countryflagsapi.com/svg/${code}`
     }
   },
 }
