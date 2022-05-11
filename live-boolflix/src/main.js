@@ -9,9 +9,11 @@ import {
 
 /* import specific icons 👇 QUI AGGIUNGI LE ICONE che vuoi usare in camelCase */
 import {
-  faUserSecret,
-  faMagnifyingGlass
+  faStar as fasStar
 } from '@fortawesome/free-solid-svg-icons'
+import {
+  faStar as farStar
+} from '@fortawesome/free-regular-svg-icons'
 
 /* import font awesome icon component */
 import {
@@ -19,7 +21,7 @@ import {
 } from '@fortawesome/vue-fontawesome'
 
 /* add icons to the library 👇 QUI AGGIUNGI IL NOME DELL'ICONA in camelCase*/
-library.add(faStar)
+library.add(fasStar, farStar)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)
