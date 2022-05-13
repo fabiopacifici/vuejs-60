@@ -11,13 +11,9 @@
 
     <main>
       <div class="container" v-if="show_results">
-        <section class="container" :class="key" v-for="(restults_data, key) in results" :key="key">
-          <h2 class="fx_text_primary py-4">{{key.toUpperCase()}}</h2>
-          <div class="row row-cols-4 g-2">
+        <SectionComponent class="container" :class="key" v-for="(restults_data, key) in results" :key="key" :sectionTitle="key">
             <ItemComponent :element="element" :itemKey="key" :class="key === 'movies' ? 'movie' : 'serie'" v-for="element in restults_data.results" :key="element.id" />
-          </div>
-        </section>
-
+        </SectionComponent>
       </div>
       <div v-else>
         <p>No thing to show here, try to search something</p>
