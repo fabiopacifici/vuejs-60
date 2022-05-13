@@ -5,15 +5,7 @@
         <div class="logo">
           <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/220513/aaf2ec219669aabcdaa3066c27dab003.png" alt="netflix-font" border="0"></a>
         </div>
-        <form @submit.prevent="search">
-        <div class="form-group d-flex">
-           <input type="search" v-model="searchText" class="form-control" placeholder="Start searching">
-          <button class="btn text-white" :disabled="searchText.length < 1">
-            <font-awesome-icon icon="fa-solid fa-search"></font-awesome-icon>
-          </button>
-        </div>
-         
-        </form>
+        <SearchComponent v-model="searchText" @submitSearch="search" :disable-button="searchText.length < 1"></SearchComponent>
       </nav>
     </header>
 
@@ -85,11 +77,13 @@
 
 <script>
 import axios from 'axios';
+import SearchComponent from './components/SearchComponent.vue';
 
 export default {
   name: 'App',
   components: {
-  },
+    SearchComponent
+},
   data() {
     return {
       searchText: '',
