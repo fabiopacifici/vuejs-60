@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
+/* Bootstrap */
+const bootstrap = require('bootstrap')
+Vue.use(bootstrap)
+
 import LangFlag from 'vue-lang-code-flags';
 /* Font Awesome icons*/
 /* import the fontawesome core */
@@ -9,7 +13,7 @@ import {
 
 /* import specific icons 👇 QUI AGGIUNGI LE ICONE che vuoi usare in camelCase */
 import {
-  faStar as fasStar
+  faStar as fasStar, faSearch as fasSearch
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faStar as farStar
@@ -21,7 +25,7 @@ import {
 } from '@fortawesome/vue-fontawesome'
 
 /* add icons to the library 👇 QUI AGGIUNGI IL NOME DELL'ICONA in camelCase*/
-library.add(fasStar, farStar)
+library.add(fasStar, farStar, fasSearch)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)

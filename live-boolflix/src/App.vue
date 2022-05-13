@@ -1,13 +1,18 @@
 <template>
   <div id="app">
     <header>
-      <nav class="main-nav">
+      <nav class="main-nav d-flex justify-content-between align-items-center">
         <div class="logo">
           <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/220513/aaf2ec219669aabcdaa3066c27dab003.png" alt="netflix-font" border="0"></a>
         </div>
         <form @submit.prevent="search">
-          <input type="search" v-model="searchText">
-          <button :disabled="searchText.length < 1">Search</button>
+        <div class="form-group d-flex">
+           <input type="search" v-model="searchText" class="form-control" placeholder="Start searching">
+          <button class="btn text-white" :disabled="searchText.length < 1">
+            <font-awesome-icon icon="fa-solid fa-search"></font-awesome-icon>
+          </button>
+        </div>
+         
         </form>
       </nav>
     </header>
@@ -159,4 +164,11 @@ export default {
 <style lang="scss">
 @import './assets/scss/style.scss';
 
+
+/* Header  */
+
+.main-nav{
+  background-color: $fx-darkest;
+  box-shadow: 0 2px 5px $fx-primary-darker;
+}
 </style>
