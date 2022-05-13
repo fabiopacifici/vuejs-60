@@ -20,41 +20,37 @@
     <main>
       <div class="container" v-if="show_results">
 
-
-
-
-        <section class="movies container">
-          <h2 class="fx_text_primary py-4">Movies</h2>
-          <div class="row row-cols-4 g-2">
-            <div class="movie bg-transparent position-relative" v-for="movie in results.movies.results" :key="movie.id">
-              <!-- Add the movie image -->
-              <img class="img-fluid" :src="generateImageUrl(movie.poster_path)" alt="">
+      <section class="container" :class="key" v-for="(restults_data, key) in results" :key="key">
+        <h2 class="fx_text_primary py-4">{{key.toUpperCase()}}</h2>
+        <div class="row row-cols-4 g-2">
+         <div class="bg-transparent position-relative" :class="key === 'movies' ? 'movie' : 'serie'" v-for="element in restults_data.results" :key="element.id">
+            <img class="img-fluid" :src="generateImageUrl(element.poster_path)" alt="">
               <div class="card-text tex-white d-none px-2 position-absolute top-0">  
                 <h3>
-                  {{ movie.title }}
+                  {{ key == 'movies' ? element.title : element.name }}
                 </h3>
                 <h4>
-                  {{ movie.original_title }}
+                  {{ key == 'movies' ? element.original_title : element.original_name }}
                 </h4>
     
                 <!-- Add vote as star with Fontawesome -->
                 <div class="rating">
-                  <font-awesome-icon icon="fa-solid fa-star" v-for="vote in getVote(movie.vote_average)"
+                  <font-awesome-icon icon="fa-solid fa-star" v-for="vote in getVote(element.vote_average)"
                     :key="vote + 'full'" />
-                  <font-awesome-icon icon="fa-regular fa-star" v-for="vote in 5 - getVote(movie.vote_average)"
+                  <font-awesome-icon icon="fa-regular fa-star" v-for="vote in 5 - getVote(element.vote_average)"
                     :key="vote + 'empty'" />
                 </div>
     
                 <!-- Add vote as stars With Bootstrap
                 <div class="rating">
-                  <span class="star-fill" v-for="vote in getVote(movie.vote_average)" :key="vote + 'full'">
+                  <span class="star-fill" v-for="vote in getVote(element.vote_average)" :key="vote + 'full'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class="bi bi-star-fill" viewBox="0 0 16 16">
                       <path
                         d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                     </svg>
                   </span>
-                  <span class="star-empty" v-for="vote in 5 - getVote(movie.vote_average)" :key="vote + 'empty'">
+                  <span class="star-empty" v-for="vote in 5 - getVote(element.vote_average)" :key="vote + 'empty'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star"
                       viewBox="0 0 16 16">
                       <path
@@ -66,33 +62,15 @@
     
     
                 <!-- lang flag -->
-                <lang-flag :iso="movie.original_language" v-if="selectedFlags(movie.original_language)" />
+                <lang-flag :iso="element.original_language" v-if="selectedFlags(element.original_language)" />
                 <div v-else>
-                  {{ movie.original_language }}
+                  {{ element.original_language }}
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
 
-        <section class="series container">
-          <h2 class="fx_text_primary py-4">Series</h2>
-          <div class="row row-cols-4 g-2">
-            <div class="serie" v-for="serie in results.series.results" :key="serie.id">
-              <!-- Add the movie image -->
-              <img class="img-fluid" :src="generateImageUrl(serie.poster_path)" alt="">
-              {{ serie.name }}
-              {{ serie.original_name }}
-              {{ serie.vote_average }}
-              <!-- lang flag -->
-              <lang-flag :iso="serie.original_language" v-if="selectedFlags(serie.original_language)" />
-              <div v-else>
-                {{ serie.original_language }}
-              </div>
-            </div>
-          </div>
-
-        </section>
+         </div>
+        </div>
+      </section>
 
       </div>
       <div v-else>
