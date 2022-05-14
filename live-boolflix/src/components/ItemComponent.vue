@@ -39,6 +39,15 @@
       <div v-else>
         {{ element.original_language }}
       </div>
+
+      <!-- Cast -->
+      <div class="cast" v-if="element.cast">
+        <h5>Cast</h5>
+        <div class="actor" v-for="(actor, index ) in element.cast" :key="actor.name + index">
+          {{actor.name}}
+        </div>
+      </div>
+
     </div>
 
   </div>

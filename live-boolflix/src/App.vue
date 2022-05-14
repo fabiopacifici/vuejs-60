@@ -56,11 +56,16 @@ export default {
           console.log(response) // Array [{}, {}]
           // create an object in the data function
           // loop over the response array or grab the first element of the response
-          const movies = response[0]
-          const series = response[1]
+          const movies = response[0].data
+          const series = response[1].data
+
+          // Cast
+          this.addCastTo(movies, 'movie')
+          this.addCastTo(series, 'tv')
+
           // create for each response a new key and assign the response.data as its value
-          this.$set(this.results, 'movies', movies.data)
-          this.$set(this.results, 'series', series.data)
+          this.$set(this.results, 'movies', movies)
+          this.$set(this.results, 'series', series)
           this.show_results = true
         }).catch(err => {
           console.log(err);
@@ -74,11 +79,36 @@ export default {
       const series_url = `${this.API_base_url}search/tv?api_key=${this.API_KEY}&query=${query}`
       return axios.get(series_url)
     },
-
     search() {
       this.callApi(this.searchText)
       this.searchText = ''
     },
+    addCastTo(entity_object, type){
+      //console.log(entity_object);
+      entity_object.results.forEach(entity => {
+        //console.log(entity);
+        const url = `${this.API_base_url}${type}/${entity.id}/credits?api_key=${this.API_KEY}`
+        axios.get(url).then(resp => {
+            const cast = resp.data.cast.length > 5 ? resp.data.cast.splice(0, 5) : resp.data.cast;
+            console.log(cast);
+            this.$set(entity, 'cast', cast)
+          
+        }).catch(err => {
+          console.log(err.message);
+        })
+      })
+     /*  
+      let cast;
+      axios
+      .get(url)
+      .then(response => {
+        cast =  response.data.cast.splice(0, 5)
+      }).catch(err => {
+        console.log(err);
+      })
+      console.log(cast); */
+
+    }
 
   },
 }
