@@ -12,6 +12,17 @@
     <main>
       <div class="container" v-if="show_results">
         <SectionComponent class="container" :class="key" v-for="(restults_data, key) in results" :key="key" :sectionTitle="key">
+            <template #filter>
+              <form action="">
+                <label :for="`genre-${key}`">Filter by Genre</label>`
+                <select :id="`genre-${key}`" class="d-inline-block">
+                  <option value="">All genres</option>
+                  <option :value="genre.id" v-for="genre in genres[key == 'movies' ? 'movie' : 'tv']" :key="genre.id">
+                  {{genre.name}}
+                </option>
+              </select>
+              </form>
+            </template>
             <ItemComponent :element="element" :genres="getElementGenres(element, key)" :itemKey="key" :class="key === 'movies' ? 'movie' : 'serie'" v-for="element in restults_data.results" :key="element.id" />
         </SectionComponent>
       </div>
