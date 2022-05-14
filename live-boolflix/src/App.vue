@@ -12,7 +12,7 @@
     <main>
       <div class="container" v-if="show_results">
         <SectionComponent class="container" :class="key" v-for="(restults_data, key) in results" :key="key" :sectionTitle="key">
-            <ItemComponent :element="element" :itemKey="key" :class="key === 'movies' ? 'movie' : 'serie'" v-for="element in restults_data.results" :key="element.id" />
+            <ItemComponent :element="element" :genres="getElementGenres(element, key)" :itemKey="key" :class="key === 'movies' ? 'movie' : 'serie'" v-for="element in restults_data.results" :key="element.id" />
         </SectionComponent>
       </div>
       <div v-else>
@@ -45,7 +45,10 @@ export default {
       API_KEY: '8a82473cbca2910e464dbdb44137c5cf',
       movies_data: null,
       results: {},
-      show_results: false
+      show_results: false,
+      genres: {
+
+      }
     }
   },
   methods: {
@@ -90,7 +93,6 @@ export default {
         const url = `${this.API_base_url}${type}/${entity.id}/credits?api_key=${this.API_KEY}`
         axios.get(url).then(resp => {
             const cast = resp.data.cast.length > 5 ? resp.data.cast.splice(0, 5) : resp.data.cast;
-            console.log(cast);
             this.$set(entity, 'cast', cast)
           
         }).catch(err => {
@@ -108,9 +110,29 @@ export default {
       })
       console.log(cast); */
 
+    },
+    getGenres(type){
+     const url = `${this.API_base_url}genre/${type}/list?api_key=${this.API_KEY}`
+      axios
+      .get(url)
+      .then(resp => {
+        this.$set(this.genres, type, resp.data.genres)
+      })
+    },
+    getElementGenres(item, type){
+     // loop over the genres for the current type (movie/tv)
+     const genreType = type === 'movies' ? 'movie' : 'tv';
+     return this.genres[genreType].filter(genre => {
+       // if the genre id matches the item.id then add the genre to the
+      // new array and return the array 
+       return item.genre_ids.includes(genre.id)
+     })
     }
-
   },
+  mounted(){
+    this.getGenres('movie')
+    this.getGenres('tv')
+  }
 }
 </script>
 

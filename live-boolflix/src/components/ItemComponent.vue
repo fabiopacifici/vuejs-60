@@ -39,7 +39,13 @@
       <div v-else>
         {{ element.original_language }}
       </div>
-
+      <!-- Genres -->
+      <div class="genres" v-if="genres">
+        <h4>Genres: </h4>
+        <div class="genre" v-for="genre in genres" :key="genre.id">
+          {{ genre.name }}
+        </div>
+      </div>
       <!-- Cast -->
       <div class="cast" v-if="element.cast">
         <h5>Cast</h5>
@@ -59,7 +65,8 @@ export default {
   name: 'ItemComponent',
   props: {
     element: Object,
-    itemKey: String
+    itemKey: String,
+    genres: Array
   },
   data() {
     return {
