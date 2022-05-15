@@ -3,11 +3,12 @@
     <header>
       <nav class="main-nav d-flex justify-content-between align-items-center">
         <div class="logo">
-          <a href="https://fontmeme.com/netflix-font/"><img
+          <a href="/">
+            <img
               src="https://fontmeme.com/permalink/220513/aaf2ec219669aabcdaa3066c27dab003.png" alt="netflix-font"
               border="0"></a>
         </div>
-
+        <!-- TODO: refactor filters form into a custom component -->
         <!-- Filter movies by genre  -->
         <form @change.prevent="select_a_genre('movies', genreMovieSelection)">
           <label :for="`genre-movies`">Filter Movies by Genre</label>`
@@ -29,6 +30,7 @@
             </option>
           </select>
         </form>
+
         <SearchComponent v-model="searchText" @submitSearch="search" :disable-button="searchText.length < 1">
         </SearchComponent>
       </nav>
@@ -44,7 +46,8 @@
         </SectionComponent>
       </div>
       <div v-else>
-        <p>No thing to show here, try to search something</p>
+          
+        <WelcomePage />
       </div>
 
 
@@ -58,13 +61,14 @@ import axios from 'axios';
 import SearchComponent from './components/SearchComponent.vue';
 import ItemComponent from './components/ItemComponent.vue';
 import SectionComponent from './components/SectionComponent.vue';
-
+import WelcomePage from './components/WelcomePage.vue';
 export default {
   name: 'App',
   components: {
     SearchComponent,
     ItemComponent,
-    SectionComponent
+    SectionComponent,
+    WelcomePage
   },
   data() {
     return {

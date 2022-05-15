@@ -1,0 +1,166 @@
+<template>
+
+  <div class="welcome-page">
+    <div class="banner" v-if="!loading">
+      <img class="img-fluid" :src="'https://image.tmdb.org/t/p/original/' + getRandomElement.backdrop_path" alt="">
+      <div class="banner-text">
+        <h1>{{ getRandomElement.title }}</h1>
+        <button href="" class="btn btn-outline-danger rounded-pill" @click="showVideo(getRandomElement.id)">Watch Trailer</button>
+      </div>
+      <div class="trailer" v-if="video_id">
+        <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${video_id}?controls=0`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen autoplay></iframe>
+
+      </div>
+    </div>
+    <section class="popular container-fluid px-4" v-if="!loading">
+
+      <h2>Popular on boolflix</h2>
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-5">
+        <ItemComponent class="short-card" :element="element" v-for="element in popular" :key="element.id"
+          :itemKey="'movies'" />
+      </div>
+    </section>
+    <div class="container-fluid p-4 placeholders" v-else>
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4">
+        <div class="item" v-for="card in 20" :key="card">
+          <div class="card">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+
+<script>
+import axios from "axios"
+import ItemComponent from "./ItemComponent.vue"
+export default {
+  name: 'WelcomePage',
+  data() {
+    return {
+      popular: null,
+      loading: true,
+      video_id: null
+    }
+  },
+  components: {
+    ItemComponent
+  },
+  methods: {
+
+    showVideo(id){
+      axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US`)
+      .then(resp => {
+        console.log(resp);
+        this.video_id = resp.data.results[0].id
+      })
+    }
+},
+  computed: {
+    getRandomElement() {
+      return this.popular[Math.ceil(Math.random() * this.popular.length) - 1]
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      axios.get('https://api.themoviedb.org/3/movie/popular?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US&page=1')
+        .then(resp => {
+          this.popular = resp.data.results
+          this.loading = false
+        })
+    }, 1000)
+  }
+}
+</script>
+
+<style lang="scss">
+.welcome-page {
+  .banner {
+    position: relative;
+    .trailer {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .banner-text {
+      position: absolute;
+      top: 50%;
+      left: 2rem;
+      transform: translateY(-50%);
+
+      h1 {
+        font-size: 4rem;
+        color: white;
+        text-shadow: 0 0 10px #545454;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+    }
+  }
+
+  .placeholders {
+    .card {
+      background-color: gainsboro;
+      height: 200px;
+      animation: pulse 1.5s infinite;
+    }
+  }
+
+  .popular {
+    margin-top: -8rem;
+
+    .item {
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .card-text {
+        text-align: center;
+        padding: 1rem;
+        max-width: 80%;
+
+        h3,
+        .overview {
+          display: none;
+        }
+
+      }
+
+      &:hover img {
+        filter: brightness(0.5);
+      }
+
+      &:hover .card-text {
+        color: white;
+        display: block !important;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  25% {
+    transform: scale(1.025);
+  }
+
+  50% {
+    transform: scale(1.0);
+  }
+
+  75% {
+    transform: scale(1.025);
+  }
+
+}
+</style>

@@ -8,7 +8,6 @@
       <h4>
         {{ itemKey == 'movies' ? element.original_title : element.original_name }}
       </h4>
-
       <!-- Add vote as star with Fontawesome -->
       <div class="rating">
         <font-awesome-icon icon="fa-solid fa-star" v-for="vote in getVote(element.vote_average)" :key="vote + 'full'" />
@@ -50,10 +49,14 @@
       <div class="cast" v-if="element.cast">
         <h5>Cast</h5>
         <div class="actor" v-for="(actor, index ) in element.cast" :key="actor.name + index">
-          {{actor.name}}
+          {{ actor.name }}
         </div>
       </div>
 
+      <p class="overview">
+        <strong>Overview</strong>
+        {{ element.overview }}
+      </p>
     </div>
 
   </div>
@@ -93,3 +96,24 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.item {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  .card-text {
+    padding: 1.5rem;
+    .rating {
+      color: yellow;
+    }
+    .overview {
+      height: 200px;
+      overflow-y: auto;
+    }
+  }
+}
+</style>
