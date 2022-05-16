@@ -34,7 +34,12 @@
         </div>
       </div>
     </div>
-    <ModalComponent :content="modal_data" :open-modal="showing_modal" @close-modal="showing_modal = false" />
+    <ModalComponent :content="modal_data" :open-modal="showing_modal" @close-modal="showing_modal = false">
+      <h3>Trailers</h3>
+      <div class="trailers row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" v-if="modal_data && modal_data.trailers">
+         <YouTubeIframe frame-width="258" frame-height="150" :video-id="item.key" v-for="item in modal_data.trailers" :key="item.id"/>
+      </div>
+    </ModalComponent>
    <!--  <div class="fx_modal position-fixed top-0 h-100 " v-if="showing_modal && modal_data">
         <button class="btn btn-outline-dark text-white" @click="showing_modal = false">Close</button>
       <div class="modal-dialog modal-fullscreen">
@@ -57,6 +62,7 @@
 import axios from "axios"
 import ItemComponent from "./ItemComponent.vue"
 import ModalComponent from "./ModalComponent.vue"
+import YouTubeIframe from "./YouTubeIframe.vue"
 export default {
   name: 'WelcomePage',
   data() {
@@ -70,7 +76,8 @@ export default {
   },
   components: {
     ItemComponent,
-    ModalComponent
+    ModalComponent,
+    YouTubeIframe
 },
   methods: {
 
@@ -86,6 +93,15 @@ export default {
 
       this.modal_data = item;
       this.showing_modal = true;
+    },
+    getItemTrailers(item){
+       axios.get(`https://api.themoviedb.org/3/movie/${item.id}/videos?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US`)
+        .then(resp => {
+          //console.log(resp);
+          this.$set(item, 'trailers', resp.data.results.splice(0, 5))
+        }).catch(err => {
+          console.error(err);
+        })
     }
 
   },
@@ -100,6 +116,12 @@ export default {
         .then(resp => {
           this.popular = resp.data.results
           this.loading = false
+
+          // add all trailers to the results
+          this.popular.forEach(item => {
+            this.getItemTrailers(item)
+          })
+
         })
     }, 1000)
   }
