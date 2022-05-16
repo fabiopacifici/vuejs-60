@@ -34,8 +34,8 @@
         </div>
       </div>
     </div>
-    
-    <div class="fx_modal position-fixed top-0 h-100 " v-if="showing_modal && modal_data">
+    <ModalComponent :content="modal_data" :open-modal="showing_modal" @close-modal="showing_modal = false" />
+   <!--  <div class="fx_modal position-fixed top-0 h-100 " v-if="showing_modal && modal_data">
         <button class="btn btn-outline-dark text-white" @click="showing_modal = false">Close</button>
       <div class="modal-dialog modal-fullscreen">
         <div class="modal-body d-flex justify-content-around">
@@ -47,7 +47,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
 </template>
@@ -56,6 +56,7 @@
 <script>
 import axios from "axios"
 import ItemComponent from "./ItemComponent.vue"
+import ModalComponent from "./ModalComponent.vue"
 export default {
   name: 'WelcomePage',
   data() {
@@ -68,8 +69,9 @@ export default {
     }
   },
   components: {
-    ItemComponent
-  },
+    ItemComponent,
+    ModalComponent
+},
   methods: {
 
     showBannerTrailer(id) {
