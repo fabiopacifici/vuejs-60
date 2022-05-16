@@ -1,12 +1,14 @@
 <template>
 
-  <div class="welcome-page">
+  <div class="welcome-page pb-4">
     <div class="banner" v-if="!loading">
       <img class="img-fluid" :src="'https://image.tmdb.org/t/p/original/' + getRandomElement.backdrop_path" alt="">
       <div class="banner-text">
         <h1>{{ getRandomElement.title }}</h1>
-        <button href="" class="btn btn-outline-danger rounded-pill" @click="showVideo(getRandomElement.id)">Watch
-          Trailer</button>
+        <button href="" class="btn btn-outline-danger rounded-pill" @click="showBannerTrailer(getRandomElement.id)">
+          Watch Trailer
+          <font-awesome-icon icon="fa-solid fa-play-circle fa-fw"></font-awesome-icon>
+        </button>
       </div>
       <div class="trailer" v-if="video_id">
         <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${video_id}?controls=0`"
@@ -14,22 +16,34 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
-      <div v-else>
-        <p>Sorry, Trailer not available yet.</p>
-      </div>
+
     </div>
     <section class="popular container-fluid px-4" v-if="!loading">
 
       <h2>Popular on boolflix</h2>
       <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-5">
-        <ItemComponent class="short-card" :element="element" v-for="element in popular" :key="element.id"
-          :itemKey="'movies'" />
+        <ItemComponent @showModal="show_modal(element)" class="short-card" :element="element" v-for="element in popular"
+          :key="element.id" :itemKey="'movies'" />
       </div>
     </section>
     <div class="container-fluid p-4 placeholders" v-else>
       <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4">
         <div class="item" v-for="card in 20" :key="card">
           <div class="card">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="fx_modal position-fixed top-0 h-100 " v-if="showing_modal && modal_data">
+        <button class="btn btn-outline-dark text-white" @click="showing_modal = false">Close</button>
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-body d-flex justify-content-around">
+          <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w780/' + modal_data.backdrop_path" alt="">
+          <div class="data_text px-4">
+            <h2 class="display-3">{{ modal_data.title }}</h2>
+            <p>{{ modal_data.overview }}</p>
+
           </div>
         </div>
       </div>
@@ -48,7 +62,9 @@ export default {
     return {
       popular: null,
       loading: true,
-      video_id: null
+      video_id: null,
+      modal_data: null,
+      showing_modal: true
     }
   },
   components: {
@@ -56,13 +72,19 @@ export default {
   },
   methods: {
 
-    showVideo(id) {
+    showBannerTrailer(id) {
       axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US`)
         .then(resp => {
           console.log(resp);
           this.video_id = resp.data.results[0].key
         })
     },
+    show_modal(item) {
+      console.log(item);
+
+      this.modal_data = item;
+      this.showing_modal = true;
+    }
 
   },
   computed: {
@@ -171,5 +193,16 @@ export default {
     transform: scale(1.025);
   }
 
+}
+
+
+/* Modal */
+
+.fx_modal {
+  background-color: rgba(0, 0, 0, 0.921);
+  color:white;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 </style>

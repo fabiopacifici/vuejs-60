@@ -1,5 +1,5 @@
 <template>
-  <div class="item bg-transparent position-relative">
+  <div class="item bg-transparent position-relative" @click="$emit('showModal')">
     <img class="img-fluid" :src="generateImageUrl(element.poster_path)" alt="">
     <div class="card-text tex-white d-none px-2 position-absolute top-0">
       <h3>

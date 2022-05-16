@@ -1,38 +1,39 @@
 <template>
   <div id="app">
     <header>
-      <nav class="main-nav d-flex justify-content-between align-items-center">
+      <nav class="main-nav d-flex justify-content-between align-items-center flex-wrap">
         <div class="logo">
           <a href="/">
-            <img
-              src="https://fontmeme.com/permalink/220513/aaf2ec219669aabcdaa3066c27dab003.png" alt="netflix-font"
+            <img src="https://fontmeme.com/permalink/220513/aaf2ec219669aabcdaa3066c27dab003.png" alt="netflix-font"
               border="0"></a>
         </div>
-        <!-- TODO: refactor filters form into a custom component -->
-        <!-- Filter movies by genre  -->
-        <form @change.prevent="select_a_genre('movies', genreMovieSelection)">
-          <label :for="`genre-movies`">Filter Movies by Genre</label>`
-          <select :id="`genre-movies`" class="d-inline-block" v-model="genreMovieSelection">
-            <option value="">All genres</option>
-            <option :value="genre.id" v-for="genre in genres.movie" :key="genre.id">
-              {{ genre.name }}
-            </option>
-          </select>
-        </form>
+        <div class="filters d-flex gap-3 align-items-center flex-wrap">
+          <!-- TODO: refactor filters form into a custom component -->
+          <!-- Filter movies by genre  -->
+          <form @change.prevent="select_a_genre('movies', genreMovieSelection)">
+            <label :for="`genre-movies`" class="text-secondary">Filter Movies by Genre</label>`
+            <select :id="`genre-movies`" class="d-inline-block" v-model="genreMovieSelection">
+              <option value="">All genres</option>
+              <option :value="genre.id" v-for="genre in genres.movie" :key="genre.id">
+                {{ genre.name }}
+              </option>
+            </select>
+          </form>
 
-        <!-- Filter series by genre  -->
-        <form @change.prevent="select_a_genre('series', genreSerieSelection)">
-          <label :for="`genre-series`">Filter Series by Genre</label>`
-          <select :id="`genre-series`" class="d-inline-block" v-model="genreSerieSelection">
-            <option value="">All genres</option>
-            <option :value="genre.id" v-for="genre in genres.tv" :key="genre.id">
-              {{ genre.name }}
-            </option>
-          </select>
-        </form>
+          <!-- Filter series by genre  -->
+          <form @change.prevent="select_a_genre('series', genreSerieSelection)">
+            <label :for="`genre-series`" class="text-secondary">Filter Series by Genre</label>`
+            <select :id="`genre-series`" class="d-inline-block" v-model="genreSerieSelection">
+              <option value="">All genres</option>
+              <option :value="genre.id" v-for="genre in genres.tv" :key="genre.id">
+                {{ genre.name }}
+              </option>
+            </select>
+          </form>
 
-        <SearchComponent v-model="searchText" @submitSearch="search" :disable-button="searchText.length < 1">
-        </SearchComponent>
+          <SearchComponent v-model="searchText" @submitSearch="search" :disable-button="searchText.length < 1">
+          </SearchComponent>
+        </div>
       </nav>
     </header>
 
@@ -46,7 +47,7 @@
         </SectionComponent>
       </div>
       <div v-else>
-          
+
         <WelcomePage />
       </div>
 
@@ -190,7 +191,7 @@ export default {
 
     },
     filterSeriesData() {
-       if (this.genreFilter.series.genre_id == '') {
+      if (this.genreFilter.series.genre_id == '') {
         return this.results.series.results
       }
       return this.results.series.results.filter(

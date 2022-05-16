@@ -13,7 +13,7 @@ import {
 
 /* import specific icons 👇 QUI AGGIUNGI LE ICONE che vuoi usare in camelCase */
 import {
-  faStar as fasStar, faSearch as fasSearch
+  faStar as fasStar, faSearch as fasSearch, faPlayCircle as fasPlayCircle
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faStar as farStar
@@ -25,7 +25,7 @@ import {
 } from '@fortawesome/vue-fontawesome'
 
 /* add icons to the library 👇 QUI AGGIUNGI IL NOME DELL'ICONA in camelCase*/
-library.add(fasStar, farStar, fasSearch)
+library.add(fasStar, farStar, fasSearch, fasPlayCircle)
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)
