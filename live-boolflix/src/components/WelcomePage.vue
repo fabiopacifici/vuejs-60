@@ -5,11 +5,17 @@
       <img class="img-fluid" :src="'https://image.tmdb.org/t/p/original/' + getRandomElement.backdrop_path" alt="">
       <div class="banner-text">
         <h1>{{ getRandomElement.title }}</h1>
-        <button href="" class="btn btn-outline-danger rounded-pill" @click="showVideo(getRandomElement.id)">Watch Trailer</button>
+        <button href="" class="btn btn-outline-danger rounded-pill" @click="showVideo(getRandomElement.id)">Watch
+          Trailer</button>
       </div>
       <div class="trailer" v-if="video_id">
-        <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${video_id}?controls=0`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen autoplay></iframe>
-
+        <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${video_id}?controls=0`"
+          title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div v-else>
+        <p>Sorry, Trailer not available yet.</p>
       </div>
     </div>
     <section class="popular container-fluid px-4" v-if="!loading">
@@ -50,14 +56,15 @@ export default {
   },
   methods: {
 
-    showVideo(id){
+    showVideo(id) {
       axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US`)
-      .then(resp => {
-        console.log(resp);
-        this.video_id = resp.data.results[0].id
-      })
-    }
-},
+        .then(resp => {
+          console.log(resp);
+          this.video_id = resp.data.results[0].key
+        })
+    },
+
+  },
   computed: {
     getRandomElement() {
       return this.popular[Math.ceil(Math.random() * this.popular.length) - 1]
@@ -79,12 +86,14 @@ export default {
 .welcome-page {
   .banner {
     position: relative;
+
     .trailer {
       position: absolute;
       right: 1rem;
       top: 50%;
       transform: translateY(-50%);
     }
+
     .banner-text {
       position: absolute;
       top: 50%;
