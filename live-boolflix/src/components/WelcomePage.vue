@@ -13,14 +13,8 @@
           :key="element.id" :itemKey="'movies'" />
       </div>
     </section>
-    <div class="container-fluid p-4 placeholders" v-else>
-      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4">
-        <div class="item" v-for="card in 20" :key="card">
-          <div class="card">
-          </div>
-        </div>
-      </div>
-    </div>
+    <LoadingCards v-else/>
+
     <ModalComponent :content="modal_data" :open-modal="showing_modal" @close-modal="showing_modal = false">
       <h3>Trailers</h3>
       <div class="trailers row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" v-if="modal_data && modal_data.trailers">
@@ -52,13 +46,15 @@ import ItemComponent from "./ItemComponent.vue"
 import ModalComponent from "./ModalComponent.vue"
 import YouTubeIframe from "./YouTubeIframe.vue"
 import BannerComponent from "./BannerComponent.vue"
+import LoadingCards from './LoadingCards.vue'
 export default {
   name: 'WelcomePage',
     components: {
       ItemComponent,
       ModalComponent,
       YouTubeIframe,
-      BannerComponent
+      BannerComponent,
+      LoadingCards
     },
   data() {
     return {
