@@ -3,7 +3,7 @@
   <div class="welcome-page pb-4">
 
 
-    <BannerComponent :element="getRandomElement" :video-key="video_key" v-if="!loading"/>
+    <BannerComponent :element="getRandomElement" :video-key="video_key" v-if="!loading" @show-trailer="showBannerTrailer"/>
 
     <section class="popular container-fluid px-4" v-if="!loading">
 
@@ -118,7 +118,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .welcome-page {
 
 
@@ -138,7 +138,7 @@ export default {
 
       img {
         width: 100%;
-        height: 200px;
+        
         object-fit: cover;
       }
 

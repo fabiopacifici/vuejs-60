@@ -4,7 +4,7 @@
       <img class="img-fluid" :src="'https://image.tmdb.org/t/p/original/' + element.backdrop_path" alt="">
       <div class="banner-text">
         <h1>{{ element.title }}</h1>
-        <button href="" class="btn btn-outline-danger rounded-pill" @click="showBannerTrailer(element.id)">
+        <button href="" class="btn btn-outline-danger rounded-pill" @click="$emit('show-trailer', element.id)">
           Watch Trailer
           <font-awesome-icon icon="fa-solid fa-play-circle fa-fw"></font-awesome-icon>
         </button>
