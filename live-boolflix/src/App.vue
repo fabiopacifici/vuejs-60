@@ -2,34 +2,18 @@
   <div id="app">
     <header>
       <nav class="main-nav d-flex justify-content-between align-items-center flex-wrap">
-        <div class="logo">
-          <a href="/">
-            <img src="https://fontmeme.com/permalink/220513/aaf2ec219669aabcdaa3066c27dab003.png" alt="netflix-font"
-              border="0"></a>
-        </div>
+        <Logo />
         <div class="filters d-flex gap-3 align-items-center flex-wrap">
           <!-- TODO: refactor filters form into a custom component -->
           <!-- Filter movies by genre  -->
-          <form @change.prevent="select_a_genre('movies', genreMovieSelection)">
-            <label :for="`genre-movies`" class="text-secondary">Filter Movies by Genre</label>`
-            <select :id="`genre-movies`" class="d-inline-block" v-model="genreMovieSelection">
-              <option value="">All genres</option>
-              <option :value="genre.id" v-for="genre in genres.movie" :key="genre.id">
-                {{ genre.name }}
-              </option>
-            </select>
-          </form>
+          <SelectFilter v-model="genreMovieSelection" :genreList="genres.movie"
+            @updateGenreSelection="select_a_genre('movies', genreMovieSelection)" type="movies" />
+
 
           <!-- Filter series by genre  -->
-          <form @change.prevent="select_a_genre('series', genreSerieSelection)">
-            <label :for="`genre-series`" class="text-secondary">Filter Series by Genre</label>`
-            <select :id="`genre-series`" class="d-inline-block" v-model="genreSerieSelection">
-              <option value="">All genres</option>
-              <option :value="genre.id" v-for="genre in genres.tv" :key="genre.id">
-                {{ genre.name }}
-              </option>
-            </select>
-          </form>
+          <SelectFilter v-model="genreSerieSelection" :genreList="genres.tv"
+            @updateGenreSelection="select_a_genre('series', genreSerieSelection)" type="series" />
+
 
           <SearchComponent v-model="searchText" @submitSearch="search" :disable-button="searchText.length < 1">
           </SearchComponent>
@@ -58,18 +42,22 @@
 </template>
 
 <script>
-import {callSearchAPI, callCastAPI, callGenreAPI} from '@/modules/axios-calls'
+import { callSearchAPI, callCastAPI, callGenreAPI } from '@/modules/axios-calls'
 import SearchComponent from './components/SearchComponent.vue';
 import ItemComponent from './components/ItemComponent.vue';
 import SectionComponent from './components/SectionComponent.vue';
 import WelcomePage from './components/WelcomePage.vue';
+import Logo from './components/LogoComponent.vue';
+import SelectFilter from './components/SelectFilter.vue';
 export default {
   name: 'App',
   components: {
     SearchComponent,
     ItemComponent,
     SectionComponent,
-    WelcomePage
+    WelcomePage,
+    Logo,
+    SelectFilter
   },
   data() {
     return {
@@ -123,19 +111,19 @@ export default {
       this.searchText = ''
     },
     addCastTo(entity_object, type) {
-      entity_object.results.forEach(entity => {  
+      entity_object.results.forEach(entity => {
         callCastAPI(type, entity.id)
-        .then(resp => {
-          const cast = resp.data.cast.length > 5 ? resp.data.cast.splice(0, 5) : resp.data.cast;
-          this.$set(entity, 'cast', cast)
+          .then(resp => {
+            const cast = resp.data.cast.length > 5 ? resp.data.cast.splice(0, 5) : resp.data.cast;
+            this.$set(entity, 'cast', cast)
 
-        }).catch(err => {
-          console.log(err.message);
-        })
+          }).catch(err => {
+            console.log(err.message);
+          })
       })
     },
     getGenres(type) {
-        callGenreAPI(type)
+      callGenreAPI(type)
         .then(resp => {
           this.$set(this.genres, type, resp.data.genres)
         })
@@ -150,8 +138,9 @@ export default {
       })
     },
     select_a_genre(type, genre_id) {
-      //console.log(type, genre_id);
-      this.genreFilter[type].genre_id = genre_id
+      console.log(type, genre_id, 'What type is it?');
+      console.log(this.genreFilter[type].genre_id);
+      this.genreFilter[type].genre_id = Number(genre_id)
     },
   },
   computed: {
