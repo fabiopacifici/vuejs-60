@@ -4,15 +4,17 @@
       <nav class="main-nav d-flex justify-content-between align-items-center flex-wrap">
         <Logo />
         <div class="filters d-flex gap-3 align-items-center flex-wrap">
-          <!-- TODO: refactor filters form into a custom component -->
-          <!-- Filter movies by genre  -->
-          <SelectFilter v-model="genreMovieSelection" :genreList="genres.movie"
-            @updateGenreSelection="select_a_genre('movies', genreMovieSelection)" type="movies" />
+
+          <div class="selectFilters d-flex gap-3" v-if="show_results">
+            <!-- Filter movies by genre  -->
+            <SelectFilter v-model="genreMovieSelection" :genreList="genres.movie"
+              @updateGenreSelection="select_a_genre('movies', genreMovieSelection)" type="movies" />
 
 
-          <!-- Filter series by genre  -->
-          <SelectFilter v-model="genreSerieSelection" :genreList="genres.tv"
-            @updateGenreSelection="select_a_genre('series', genreSerieSelection)" type="series" />
+            <!-- Filter series by genre  -->
+            <SelectFilter v-model="genreSerieSelection" :genreList="genres.tv"
+              @updateGenreSelection="select_a_genre('series', genreSerieSelection)" type="series" />
+          </div>
 
 
           <SearchComponent v-model="searchText" @submitSearch="search" :disable-button="searchText.length < 1">
