@@ -33,13 +33,16 @@
           :sectionTitle="key">
           <ItemComponent :element="element" :genres="getElementGenres(element, key)" :itemKey="key"
             :class="key === 'movies' ? 'movie' : 'serie'"
-            v-for="element in key === 'movies' ? filterMoviesData : filterSeriesData" :key="element.id" @showModal="show_modal(element)"/>
+            v-for="element in key === 'movies' ? filterMoviesData : filterSeriesData" :key="element.id"
+            @showModal="show_modal(element)" />
         </SectionComponent>
         <ModalComponent :content="modal_data" :open-modal="showing_modal" @close-modal="showing_modal = false">
-          <h3>Trailers</h3>
-          <div class="trailers row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" v-if="modal_data && modal_data.trailers">
-            <YouTubeIframe frame-width="258" frame-height="150" :video-id="item.key" v-for="item in modal_data.trailers"
-              :key="item.id" />
+          <div class="container" v-if="modal_data && modal_data.trailers.length > 0">
+            <h3>Trailers</h3>
+            <div class="trailers row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+              <YouTubeIframe class=" flex-grow-1" frame-width="258" frame-height="150" :video-id="item.key"
+                v-for="item in modal_data.trailers" :key="item.id" />
+            </div>
           </div>
         </ModalComponent>
       </div>
@@ -172,12 +175,12 @@ export default {
       console.log(entity_object);
       entity_object.results.forEach(entity => {
         callVideosAPI(entity.id, type)
-        .then(resp => {
-          console.log(resp);
-          this.$set(entity, 'trailers', resp.data.results.splice(0, 5))
-        }).catch(err => {
-          console.error(err);
-        })
+          .then(resp => {
+            console.log(resp);
+            this.$set(entity, 'trailers', resp.data.results.splice(0, 5))
+          }).catch(err => {
+            console.error(err);
+          })
       })
     }
   },
