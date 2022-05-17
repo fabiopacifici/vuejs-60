@@ -1,7 +1,7 @@
 <template>
   <div class="fx_modal position-fixed top-0 h-100" v-if="openModal && content">
     <button class="btn btn-outline-dark text-white" @click="$emit('close-modal')">Close</button>
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-fullscreen">
       <div class="container-xxl">
         <div class="modal-body d-flex justify-content-around flex-wrap g-4">
           <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w780/' + content.backdrop_path" alt="">

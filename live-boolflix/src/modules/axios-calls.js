@@ -1,8 +1,8 @@
 import axios from "axios"
 const base_url = "https://api.themoviedb.org/3"
 const API_KEY = "8a82473cbca2910e464dbdb44137c5cf"
-const callVideosAPI = (id) => {
-  return axios.get(`${base_url}/movie/${id}/videos?api_key=${API_KEY}&language=en-US`)
+const callVideosAPI = (id, type = 'movie') => {
+    return axios.get(`${base_url}/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`)
 
 }
 const callPopularMoviesAPI = () => {

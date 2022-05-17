@@ -2,7 +2,11 @@
   <div id="app">
     <header>
       <nav class="main-nav d-flex justify-content-between align-items-center flex-wrap">
-        <Logo />
+        <div class="left-menu d-flex align-items-center">
+          <Logo />
+          <a href="/" class="btn btn-outline-danger text-uppercase ms-4 rounded-pill">Home</a>
+        </div>
+
         <div class="filters d-flex gap-3 align-items-center flex-wrap">
 
           <div class="selectFilters d-flex gap-3" v-if="show_results">
@@ -24,16 +28,22 @@
     </header>
 
     <main>
-      <div class="container" v-if="show_results">
-        <SectionComponent class="container" :class="key" v-for="(restults_data, key) in results" :key="key"
+      <div v-if="show_results">
+        <SectionComponent class="container-fluid px-5" :class="key" v-for="(restults_data, key) in results" :key="key"
           :sectionTitle="key">
           <ItemComponent :element="element" :genres="getElementGenres(element, key)" :itemKey="key"
             :class="key === 'movies' ? 'movie' : 'serie'"
-            v-for="element in key === 'movies' ? filterMoviesData : filterSeriesData" :key="element.id" />
+            v-for="element in key === 'movies' ? filterMoviesData : filterSeriesData" :key="element.id" @showModal="show_modal(element)"/>
         </SectionComponent>
+        <ModalComponent :content="modal_data" :open-modal="showing_modal" @close-modal="showing_modal = false">
+          <h3>Trailers</h3>
+          <div class="trailers row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" v-if="modal_data && modal_data.trailers">
+            <YouTubeIframe frame-width="258" frame-height="150" :video-id="item.key" v-for="item in modal_data.trailers"
+              :key="item.id" />
+          </div>
+        </ModalComponent>
       </div>
       <div v-else>
-
         <WelcomePage />
       </div>
 
@@ -44,13 +54,16 @@
 </template>
 
 <script>
-import { callSearchAPI, callCastAPI, callGenreAPI } from '@/modules/axios-calls'
+import { callSearchAPI, callCastAPI, callGenreAPI, callVideosAPI } from '@/modules/axios-calls'
 import SearchComponent from './components/SearchComponent.vue';
 import ItemComponent from './components/ItemComponent.vue';
 import SectionComponent from './components/SectionComponent.vue';
 import WelcomePage from './components/WelcomePage.vue';
 import Logo from './components/LogoComponent.vue';
 import SelectFilter from './components/SelectFilter.vue';
+import ModalComponent from './components/ModalComponent.vue';
+import YouTubeIframe from './components/YouTubeIframe.vue';
+//import BannerComponent from './components/BannerComponent.vue';
 export default {
   name: 'App',
   components: {
@@ -59,7 +72,10 @@ export default {
     SectionComponent,
     WelcomePage,
     Logo,
-    SelectFilter
+    SelectFilter,
+    ModalComponent,
+    YouTubeIframe
+    //BannerComponent
   },
   data() {
     return {
@@ -81,8 +97,11 @@ export default {
           type: 'series',
           genre_id: ''
         },
-
-      }
+      },
+      /* Modal properties */
+      video_key: null,
+      modal_data: null,
+      showing_modal: true
     }
   },
   methods: {
@@ -99,7 +118,9 @@ export default {
           // Cast
           this.addCastTo(movies, 'movie')
           this.addCastTo(series, 'tv')
-
+          // Trailers
+          this.addTrailersTo(movies, 'movie')
+          this.addTrailersTo(series, 'tv')
           // create for each response a new key and assign the response.data as its value
           this.$set(this.results, 'movies', movies)
           this.$set(this.results, 'series', series)
@@ -140,10 +161,25 @@ export default {
       })
     },
     select_a_genre(type, genre_id) {
-      console.log(type, genre_id, 'What type is it?');
-      console.log(this.genreFilter[type].genre_id);
       this.genreFilter[type].genre_id = Number(genre_id)
     },
+    show_modal(item) {
+      console.log(item);
+      this.modal_data = item;
+      this.showing_modal = true;
+    },
+    addTrailersTo(entity_object, type) {
+      console.log(entity_object);
+      entity_object.results.forEach(entity => {
+        callVideosAPI(entity.id, type)
+        .then(resp => {
+          console.log(resp);
+          this.$set(entity, 'trailers', resp.data.results.splice(0, 5))
+        }).catch(err => {
+          console.error(err);
+        })
+      })
+    }
   },
   computed: {
     filterMoviesData() {

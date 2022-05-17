@@ -1,7 +1,7 @@
 <template>
   <div class="item bg-transparent position-relative" @click="$emit('showModal')">
     <img class="img-fluid" :src="generateImageUrl(element.poster_path)" alt="">
-    <div class="card-text tex-white d-none px-2 position-absolute top-0">
+    <div class="card-text tex-white d-none px-4 position-absolute top-0">
       <h3>
         {{ itemKey == 'movies' ? element.title : element.name }}
       </h3>
@@ -106,7 +106,6 @@ export default {
 
 
   .card-text {
-    padding: 1.5rem;
     .rating {
       color: yellow;
     }
