@@ -14,3 +14,14 @@ export default {
   name: 'LoadingCards'
 }
 </script>
+
+<style lang="scss" scoped>
+
+  .placeholders {
+    .card {
+      background-color: gainsboro;
+      height: 200px;
+      animation: pulse 1.5s infinite;
+    }
+  }
+</style>
