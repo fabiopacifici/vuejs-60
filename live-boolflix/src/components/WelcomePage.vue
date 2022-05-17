@@ -128,7 +128,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .welcome-page {
   .banner {
     position: relative;
@@ -179,6 +179,9 @@ export default {
         height: 200px;
         object-fit: cover;
       }
+      &:hover img {
+        filter: brightness(0.5);
+      }
 
       .card-text {
         text-align: center;
@@ -192,9 +195,6 @@ export default {
 
       }
 
-      &:hover img {
-        filter: brightness(0.5);
-      }
 
       &:hover .card-text {
         color: white;
@@ -220,13 +220,5 @@ export default {
 }
 
 
-/* Modal */
 
-.fx_modal {
-  background-color: rgba(0, 0, 0, 0.921);
-  color:white;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
 </style>
