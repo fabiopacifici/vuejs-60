@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import {callSearchAPI, callCastAPI, callGenreAPI} from '@/modules/axios-calls'
 import SearchComponent from './components/SearchComponent.vue';
 import ItemComponent from './components/ItemComponent.vue';
 import SectionComponent from './components/SectionComponent.vue';
@@ -98,7 +98,7 @@ export default {
   methods: {
     callApi(query) {
 
-      Promise.all([this.getMovies(query), this.getSeries(query)])
+      Promise.all([callSearchAPI('movie', query), callSearchAPI('tv', query)])
         .then(response => {
           console.log(response) // Array [{}, {}]
           // create an object in the data function
@@ -118,24 +118,14 @@ export default {
           console.log(err);
         })
     },
-    getMovies(query) {
-      const movie_url = `${this.API_base_url}search/movie?api_key=${this.API_KEY}&query=${query}`
-      return axios.get(movie_url)
-    },
-    getSeries(query) {
-      const series_url = `${this.API_base_url}search/tv?api_key=${this.API_KEY}&query=${query}`
-      return axios.get(series_url)
-    },
     search() {
       this.callApi(this.searchText)
       this.searchText = ''
     },
     addCastTo(entity_object, type) {
-      //console.log(entity_object);
-      entity_object.results.forEach(entity => {
-        //console.log(entity);
-        const url = `${this.API_base_url}${type}/${entity.id}/credits?api_key=${this.API_KEY}`
-        axios.get(url).then(resp => {
+      entity_object.results.forEach(entity => {  
+        callCastAPI(type, entity.id)
+        .then(resp => {
           const cast = resp.data.cast.length > 5 ? resp.data.cast.splice(0, 5) : resp.data.cast;
           this.$set(entity, 'cast', cast)
 
@@ -143,22 +133,9 @@ export default {
           console.log(err.message);
         })
       })
-      /*  
-       let cast;
-       axios
-       .get(url)
-       .then(response => {
-         cast =  response.data.cast.splice(0, 5)
-       }).catch(err => {
-         console.log(err);
-       })
-       console.log(cast); */
-
     },
     getGenres(type) {
-      const url = `${this.API_base_url}genre/${type}/list?api_key=${this.API_KEY}`
-      axios
-        .get(url)
+        callGenreAPI(type)
         .then(resp => {
           this.$set(this.genres, type, resp.data.genres)
         })

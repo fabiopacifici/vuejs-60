@@ -1,9 +1,7 @@
 <template>
-
   <div class="welcome-page pb-4">
-
-
-    <BannerComponent :element="getRandomElement" :video-key="video_key" v-if="!loading" @show-trailer="showBannerTrailer"/>
+    <BannerComponent :element="getRandomElement" :video-key="video_key" v-if="!loading"
+      @show-trailer="showBannerTrailer" />
 
     <section class="popular container-fluid px-4" v-if="!loading">
 
@@ -13,7 +11,7 @@
           :key="element.id" :itemKey="'movies'" />
       </div>
     </section>
-    <LoadingCards v-else/>
+    <LoadingCards v-else />
 
     <ModalComponent :content="modal_data" :open-modal="showing_modal" @close-modal="showing_modal = false">
       <h3>Trailers</h3>
@@ -22,40 +20,28 @@
           :key="item.id" />
       </div>
     </ModalComponent>
-    <!--  <div class="fx_modal position-fixed top-0 h-100 " v-if="showing_modal && modal_data">
-        <button class="btn btn-outline-dark text-white" @click="showing_modal = false">Close</button>
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-body d-flex justify-content-around">
-          <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w780/' + modal_data.backdrop_path" alt="">
-          <div class="data_text px-4">
-            <h2 class="display-3">{{ modal_data.title }}</h2>
-            <p>{{ modal_data.overview }}</p>
-
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 
 </template>
 
 
 <script>
-import axios from "axios"
+import { callVideosAPI, callPopularMoviesAPI } from "@/modules/axios-calls"
 import ItemComponent from "./ItemComponent.vue"
 import ModalComponent from "./ModalComponent.vue"
 import YouTubeIframe from "./YouTubeIframe.vue"
 import BannerComponent from "./BannerComponent.vue"
 import LoadingCards from './LoadingCards.vue'
+
 export default {
   name: 'WelcomePage',
-    components: {
-      ItemComponent,
-      ModalComponent,
-      YouTubeIframe,
-      BannerComponent,
-      LoadingCards
-    },
+  components: {
+    ItemComponent,
+    ModalComponent,
+    YouTubeIframe,
+    BannerComponent,
+    LoadingCards
+  },
   data() {
     return {
       popular: null,
@@ -66,9 +52,8 @@ export default {
     }
   },
   methods: {
-
     showBannerTrailer(id) {
-      axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US`)
+      callVideosAPI(id)
         .then(resp => {
           console.log(resp);
           this.video_key = resp.data.results[0].key
@@ -76,12 +61,11 @@ export default {
     },
     show_modal(item) {
       console.log(item);
-
       this.modal_data = item;
       this.showing_modal = true;
     },
     getItemTrailers(item) {
-      axios.get(`https://api.themoviedb.org/3/movie/${item.id}/videos?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US`)
+      callVideosAPI(item.id)
         .then(resp => {
           //console.log(resp);
           this.$set(item, 'trailers', resp.data.results.splice(0, 5))
@@ -98,17 +82,17 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      axios.get('https://api.themoviedb.org/3/movie/popular?api_key=8a82473cbca2910e464dbdb44137c5cf&language=en-US&page=1')
-        .then(resp => {
-          this.popular = resp.data.results
-          this.loading = false
+      callPopularMoviesAPI()
+      .then(resp => {
+        this.popular = resp.data.results
+        this.loading = false
 
-          // add all trailers to the results
-          this.popular.forEach(item => {
-            this.getItemTrailers(item)
-          })
-
+        // add all trailers to the results
+        this.popular.forEach(item => {
+          this.getItemTrailers(item)
         })
+
+      })
     }, 1000)
   }
 }
@@ -116,15 +100,6 @@ export default {
 
 <style lang="scss">
 .welcome-page {
-
-
-  .placeholders {
-    .card {
-      background-color: gainsboro;
-      height: 200px;
-      animation: pulse 1.5s infinite;
-    }
-  }
 
   .popular {
     margin-top: -8rem;
@@ -134,7 +109,7 @@ export default {
 
       img {
         width: 100%;
-        
+
         object-fit: cover;
       }
 
